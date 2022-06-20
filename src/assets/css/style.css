@@ -1,0 +1,18 @@
+@import "~normalize.css";
+@import "fonts.css";
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  background-color: yellowgreen;
+}
+
+.logo {
+  background-image: url(../images/580b57fcd9996e24bc43c53e.png);
+  background-size: cover;
+  height: 200px;
+  width: 200px;
+}
