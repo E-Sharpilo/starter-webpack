@@ -9,11 +9,15 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: './index.js',
+    main: './index.ts',
+  },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', 'json'],
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    filename: '[name].js',
+    assetModuleFilename: 'assets/images/[hash][ext][query]',
+    clean: true
   },
   devServer: {
     port: 8080
@@ -23,14 +27,23 @@ module.exports = {
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader']
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/fonts/[name][ext][query]'
+        }
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       }
     ]
   },
   optimization: {
-    minimizer: [
-      `...`,
-      new CssMinimizerPlugin(),
-    ],
+    minimizer: [new CssMinimizerPlugin(), '...']
   },
   plugins: [
     new HTMLWebpackPlugin({
@@ -44,7 +57,7 @@ module.exports = {
       patterns: [
         {
           from: path.resolve(__dirname, 'src/assets/images/favicon.ico'),
-          to: path.resolve(__dirname, 'dist')
+          to: path.resolve(__dirname, 'dist/assets/images')
         }
       ],
       options: {
@@ -52,7 +65,7 @@ module.exports = {
       }
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].bundle.css'
+      filename: 'assets/css/[name].bundle.css'
     })
   ]
 };
